@@ -1,29 +1,15 @@
 exports.getHello = (req, res, next) => {
-  res.json({ greeting: 'hello API' });
+  res.json({ greeting: 'hello from fcc-url-shortener' });
 };
 
-exports.getDate = (req, res, next) => {
-  let date;
+exports.getNew = (req, res, next) => {
+  const response = { message: 'getNew' };
 
-  console.log(date);
+  res.json(response);
+};
 
-  if (req.params.date !== undefined) {
-    const unixTimestamp = +req.params.date;
-
-    date = isNaN(unixTimestamp)
-      ? new Date(req.params.date)
-      : new Date(unixTimestamp);
-  } else {
-    date = new Date(Date.now());
-  }
-
-  const response =
-    date == 'Invalid Date'
-      ? { error: 'Invalid Date' }
-      : {
-          unix: date.getTime(),
-          utc: date.toUTCString(),
-        };
+exports.postShortURL = (req, res, next) => {
+  const response = { message: 'postShortURL' };
 
   res.json(response);
 };
