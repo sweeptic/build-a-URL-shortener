@@ -11,7 +11,7 @@ exports.postNew = async (req, res, next) => {
   const urlCode = shortid.generate();
 
   if (!validUrl.isWebUri(url)) {
-    res.status(401).json({ error: 'invalid url' });
+    res.status(401).json({ error: 'invalid URL' });
   } else {
     try {
       let findOne = await URL.findOne({ original_url: url });
