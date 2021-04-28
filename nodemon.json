@@ -4,9 +4,6 @@
   "verbose": true,
   "env": {
     "NODE_ENV": "development",
-    "DB_USER": "fcc-olive4",
-    "DB_PASSWORD": "gI2WKqT6WLC5lGUv",
-    "DB_NAME": "fcc-urlshortener",
     "PORT": 3000,
     "MONGODB_URI": "mongodb+srv://fcc-olive4:gI2WKqT6WLC5lGUv@cluster0.khhwa.mongodb.net/fcc-urlshortener?retryWrites=true&w=majority"
   },

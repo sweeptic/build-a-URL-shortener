@@ -31,6 +31,8 @@ mongoose
       port = 8000;
     }
 
+    console.log('XXXXX', port);
+
     listener = app.listen(port, function () {
       console.log('Your app is listening on port ' + listener.address().port);
     });
