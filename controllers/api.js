@@ -12,36 +12,39 @@ exports.postNew = async (req, res, next) => {
   const domain = url.replace(REPLACE_REGEX, '');
   const urlCode = shortid.generate();
 
-  // remove protocol
+  if (!req.body.url.includes('http')) {
+    res.json({ error: 'invalid URL' });
+    return;
+  } else {
+    dns.lookup(domain, async (err, add, fam) => {
+      // If the URL does not exist, return expected error
+      if (err) return res.json({ error: 'invalid URL' });
 
-  dns.lookup(domain, async (err, add, fam) => {
-    // If the URL does not exist, return expected error
-    if (err) return res.json({ error: 'invalid URL' });
+      try {
+        let findOne = await URL.findOne({ original_url: url });
 
-    try {
-      let findOne = await URL.findOne({ original_url: url });
-
-      if (findOne) {
-        res.json({
-          original_url: findOne.original_url,
-          short_url: findOne.short_url,
-        });
-      } else {
-        findOne = new URL({
-          original_url: url,
-          short_url: urlCode,
-        });
-        await findOne.save();
-        res.json({
-          original_url: findOne.original_url,
-          short_url: findOne.short_url,
-        });
+        if (findOne) {
+          res.json({
+            original_url: findOne.original_url,
+            short_url: findOne.short_url,
+          });
+        } else {
+          findOne = new URL({
+            original_url: url,
+            short_url: urlCode,
+          });
+          await findOne.save();
+          res.json({
+            original_url: findOne.original_url,
+            short_url: findOne.short_url,
+          });
+        }
+      } catch (error) {
+        console.log(error);
+        res.status(500).json('Server error');
       }
-    } catch (error) {
-      console.log(error);
-      res.status(500).json('Server error');
-    }
-  });
+    });
+  }
 };
 
 exports.getShortURL = async (req, res, next) => {
