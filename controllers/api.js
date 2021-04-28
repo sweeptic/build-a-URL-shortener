@@ -1,16 +1,16 @@
 const shortid = require('shortid');
 const URL = require('../models/url');
-var validUrl = require('valid-url');
 
 exports.getHello = (req, res, next) => {
   res.json({ greeting: 'hello from fcc-url-shortener' });
 };
 
 exports.postNew = async (req, res, next) => {
+  const httpRegex = /^(http|https)(:\/\/)/;
   const url = req.body.url;
   const urlCode = shortid.generate();
 
-  if (!validUrl.isWebUri(url)) {
+  if (!httpRegex.test(url)) {
     res.status(401).json({ error: 'Invalid URL' });
   } else {
     try {
