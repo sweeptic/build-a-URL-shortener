@@ -6,6 +6,7 @@ var port = process.env.PORT || 3000;
 const mongoose = require('mongoose');
 const defaultRoutes = require('./routes/default');
 const apiRoutes = require('./routes/api');
+const bodyParser = require('body-parser');
 const MONGODB_URI = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.khhwa.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 
 app.use(express.json());
@@ -14,6 +15,7 @@ app.use(
     extended: false,
   })
 );
+
 app.use(cors({ optionsSuccessStatus: 200 }));
 app.use(express.static('public'));
 app.use('/', defaultRoutes);
