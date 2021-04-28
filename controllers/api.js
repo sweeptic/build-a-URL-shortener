@@ -34,6 +34,7 @@ exports.postNew = async (req, res, next) => {
             short_url: urlCode,
           });
           await findOne.save();
+
           res.json({
             original_url: findOne.original_url,
             short_url: findOne.short_url,
