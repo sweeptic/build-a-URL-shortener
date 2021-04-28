@@ -1,18 +1,23 @@
 const shortid = require('shortid');
 const URL = require('../models/url');
+const dns = require('dns');
 
 exports.getHello = (req, res, next) => {
   res.json({ greeting: 'hello from fcc-url-shortener' });
 };
 
 exports.postNew = async (req, res, next) => {
+  const REPLACE_REGEX = /^https?:\/\//i;
   const url = req.body.url;
+  const domain = url.replace(REPLACE_REGEX, '');
   const urlCode = shortid.generate();
 
-  if (!req.body.url.includes('http')) {
-    res.json({ error: 'invalid url' });
-    return;
-  } else {
+  // remove protocol
+
+  dns.lookup(domain, async (err, add, fam) => {
+    // If the URL does not exist, return expected error
+    if (err) res.json({ error: 'invalid URL' });
+
     try {
       let findOne = await URL.findOne({ original_url: url });
 
@@ -36,7 +41,7 @@ exports.postNew = async (req, res, next) => {
       console.log(error);
       res.status(500).json('Server error');
     }
-  }
+  });
 };
 
 exports.getShortURL = async (req, res, next) => {
