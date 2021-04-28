@@ -16,7 +16,7 @@ exports.postNew = async (req, res, next) => {
 
   dns.lookup(domain, async (err, add, fam) => {
     // If the URL does not exist, return expected error
-    if (err) res.json({ error: 'invalid URL' });
+    if (err) return res.json({ error: 'invalid URL' });
 
     try {
       let findOne = await URL.findOne({ original_url: url });
