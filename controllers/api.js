@@ -16,7 +16,8 @@ exports.postNew = async (req, res, next) => {
   }
 
   if (!urlIsValid(url)) {
-    res.status(401).json({ error: 'Invalid URL' });
+    // res.status(401).json({ error: 'Invalid URL' });
+    res.json({ error: 'URL invalid' });
   } else {
     try {
       let findOne = await URL.findOne({ original_url: url });
