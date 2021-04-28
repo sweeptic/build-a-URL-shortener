@@ -9,8 +9,9 @@ exports.getHello = (req, res, next) => {
 exports.postNew = async (req, res, next) => {
   const REPLACE_REGEX = /^https?:\/\//i;
   const url = req.body.url;
-  const domain = url.replace(REPLACE_REGEX, '');
   const urlCode = shortid.generate();
+
+  const domain = await url.replace(REPLACE_REGEX, '');
 
   if (!req.body.url.includes('http')) {
     res.json({ error: 'invalid URL' });
