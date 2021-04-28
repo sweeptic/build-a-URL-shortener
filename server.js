@@ -1,12 +1,12 @@
 var express = require('express');
 var app = express();
 var cors = require('cors');
-let port = process.env.PORT;
 
 const mongoose = require('mongoose');
 const defaultRoutes = require('./routes/default');
 const apiRoutes = require('./routes/api');
 const uri = process.env.MONGODB_URI;
+let port = process.env.PORT;
 
 app.use(express.json());
 app.use(

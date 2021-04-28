@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.get('/hello', apiController.getHello);
 
-router.post('/shorturl/new', apiController.postNew);
+router.post('/shorturl', apiController.postNew);
 
 router.get('/shorturl/:short_url?', apiController.getShortURL);
 
