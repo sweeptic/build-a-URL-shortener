@@ -1,13 +1,14 @@
 var express = require('express');
 var app = express();
 var cors = require('cors');
-var port = process.env.PORT || 3000;
+let port = process.env.PORT;
 
 const mongoose = require('mongoose');
 const defaultRoutes = require('./routes/default');
 const apiRoutes = require('./routes/api');
-const bodyParser = require('body-parser');
-const MONGODB_URI = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.khhwa.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
+// const MONGODB_URI = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.khhwa.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
+
+const uri = process.env.MONGODB_URI;
 
 app.use(express.json());
 app.use(
@@ -27,12 +28,15 @@ mongoose
     useUnifiedTopology: true,
     serverSelectionTimeoutMS: 5000,
   })
-  .then(
-    () =>
-      (listener = app.listen(port, function () {
-        console.log('Your app is listening on port ' + listener.address().port);
-      }))
-  )
+  .then(() => {
+    if (port == null || port == '') {
+      port = 8000;
+    }
+
+    listener = app.listen(port, function () {
+      console.log('Your app is listening on port ' + listener.address().port);
+    });
+  })
   .catch(err => console.log(err));
 
 const connection = mongoose.connection;
